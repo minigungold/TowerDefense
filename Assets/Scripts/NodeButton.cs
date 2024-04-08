@@ -42,7 +42,7 @@ public class NodeButton : MonoBehaviour
             SetState(NodeState.Accessible);
         }
     }
-
+    
     private void SetState(NodeState nodeState)
     {
         currentState = nodeState;

@@ -22,6 +22,7 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Start()
     {
         tile = GetComponent<GameTile>();
+        turretRenderer.sprite = turret.turretSprite;
     }
     public void buttonClicked()
     {

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8749afc1c121b24b8d045aa96c6d054, type: 3}
-  m_Name: Turret2
+  m_Name: Turret3
   m_EditorClassIdentifier: 
-  id: 1
-  name: Turret 2
-  turretSprite: {fileID: 21300000, guid: 23b64e9e42a019141af3efd60a78f496, type: 3}
-  attack: 1
-  attackSpeed: 1
-  range: 1
+  id: 2
+  name: Turret 3
+  turretSprite: {fileID: 21300000, guid: dabde4795cdbb044590b29e82d0b0727, type: 3}
+  attack: 0
+  attackSpeed: 0
+  range: 0
