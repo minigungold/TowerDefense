@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         // distance minimale de la tuile à la source
         var dist = new Dictionary<GameTile, int>();
 
-        // tuile précédentte qui mène au chemin le plus court
+        // tuile précédente qui mène au chemin le plus court
         var prev = new Dictionary<GameTile, GameTile>();
 
         // liste des tuiles restantes

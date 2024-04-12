@@ -11,6 +11,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        hpText.text = $"HP: {3 + bonusHP}";
+        hpText.text = $"{3 + bonusHP}";
     }
 }

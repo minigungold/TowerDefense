@@ -11,6 +11,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] SpriteRenderer hoverRenderer;
     [SerializeField] private List<TurningTurret> turrets;
     [SerializeField] private SpriteRenderer spawnRenderer, turretRenderer;
+    [SerializeField] private Color color;
     private TurningTurret turret;
 
     private SpriteRenderer spriteRenderer;
@@ -30,7 +31,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     internal void TurnGray()
     {
-        spriteRenderer.color = Color.gray;
+        //spriteRenderer.color = Color.gray;
         originalColor = spriteRenderer.color;
     }
 
