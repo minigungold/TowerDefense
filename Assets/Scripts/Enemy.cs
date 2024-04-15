@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] GameObject visual;
+    public static HashSet<Enemy> allEnemies = new HashSet<Enemy>();
     private Stack<GameTile> path = new Stack<GameTile>();
+    int hp = 20;
+
+    private void Awake()
+    {
+        allEnemies.Add(this);
+    }
 
     internal void SetPath(List<GameTile> pathToGoal)
     {
         path.Clear();
-        foreach(GameTile tile in pathToGoal)
+        foreach (GameTile tile in pathToGoal)
         {
             path.Push(tile);
         }
@@ -18,10 +26,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if(path.Count > 0)
+        if (path.Count > 0)
         {
             Vector3 destPos = path.Peek().transform.position;
-            transform.position = Vector3.MoveTowards(transform.position,destPos, 2 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, destPos, 2 * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, destPos) < 0.01f)
             {
@@ -30,7 +38,25 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Destroy(path.Pop());
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        allEnemies.Remove(this);
+        Destroy(gameObject);
+    }
+
+    internal void Attack()
+    {
+        if (--hp <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            visual.transform.localScale *= 0.9f;
         }
     }
 }

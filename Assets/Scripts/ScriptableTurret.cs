@@ -11,4 +11,5 @@ public class ScriptableTurret : ScriptableObject
     public int attack;
     public int attackSpeed;
     public int range;
+    //public LineRenderer lineRenderer;
 }

@@ -5,13 +5,13 @@ using UnityEngine;
 public class SelectedItem : MonoBehaviour
 {
     public static SelectedItem Instance;
-    private SpriteRenderer selectedItemRenderer;
     public ScriptableTurret selectItem;
+    private SpriteRenderer selectedItemRenderer;
     GameTile tile;
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -19,7 +19,10 @@ public class SelectedItem : MonoBehaviour
     }
     private void Update()
     {
-        if (selectItem != null) { selectedItemRenderer.sprite = selectItem.turretSprite; }
+        if (selectItem != null)
+        {
+            selectedItemRenderer.sprite = selectItem.turretSprite;
+        }
 
     }
 

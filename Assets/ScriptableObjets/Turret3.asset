@@ -18,3 +18,4 @@ MonoBehaviour:
   attack: 0
   attackSpeed: 0
   range: 0
+  lineRenderer: {fileID: 0}

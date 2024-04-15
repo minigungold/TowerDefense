@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8749afc1c121b24b8d045aa96c6d054, type: 3}
   m_Name: Turret1
   m_EditorClassIdentifier: 
+  id: 0
   name: Turret 1
   turretSprite: {fileID: 21300000, guid: 3cade30fbd108e54ca1803a7fa4d9c37, type: 3}
   attack: 1
   attackSpeed: 1
   range: 1
+  lineRenderer: {fileID: 4468702184016187907, guid: f31d9bbb7a55437419d7d5e92fe69912, type: 3}
