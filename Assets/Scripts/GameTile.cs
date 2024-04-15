@@ -12,8 +12,9 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private List<TurningTurret> turrets;
     [SerializeField] private SpriteRenderer spawnRenderer, turretRenderer;
     [SerializeField] private Color color;
-    private TurningTurret turret;
     [SerializeField] private LineRenderer lineRenderer;
+
+    private TurningTurret turret;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool canAttack = true;
