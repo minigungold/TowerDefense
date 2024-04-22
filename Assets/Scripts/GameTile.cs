@@ -18,6 +18,9 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool canAttack = true;
+    private int range;
+    private int atk;
+    private int atkSpeed;
 
     private Vector3 moveDirection;
 
@@ -45,7 +48,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Enemy target = null;
             foreach (var enemy in Enemy.allEnemies)
             {
-                if (Vector3.Distance(transform.position, enemy.transform.position) < 2)
+                if (Vector3.Distance(transform.position, enemy.transform.position) < range) // Range
                 {
                     target = enemy;
                     break;
@@ -66,7 +69,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         lineRenderer.enabled = true;
         yield return new WaitForSeconds(0.2f);
         lineRenderer.enabled = false;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1f / atkSpeed); // Attack Speed
         canAttack = true;
     }
 
@@ -99,8 +102,9 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             //Changer les propriétés pour celles de l'item sélectionné
             turretRenderer.sprite = item.turretSprite;
             //lineRenderer = item.lineRenderer;
-
-
+            range = item.range;
+            atk = item.attack;
+            atkSpeed = item.attackSpeed;
 
         }
 

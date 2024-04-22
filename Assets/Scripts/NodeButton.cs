@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public enum NodeState
@@ -11,10 +12,11 @@ public enum NodeState
     Accessible, // Jaune
     Unaccessible // Rouge 
 }
-public class NodeButton : MonoBehaviour
+public class NodeButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] NodeButton parentNode;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer hoverRenderer;
     [SerializeField] TMP_Text valueText;
     [SerializeField] int bonusHP = 1;
 
@@ -75,7 +77,7 @@ public class NodeButton : MonoBehaviour
                 break;
         }
     }
-    private void OnMouseDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
         // Si la node est accessible
         if (currentState == NodeState.Accessible)
@@ -86,4 +88,13 @@ public class NodeButton : MonoBehaviour
         // Sinon rien
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hoverRenderer.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hoverRenderer.enabled = false;
+    }
 }

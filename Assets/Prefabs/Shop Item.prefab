@@ -91,10 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08a5d86a46f03a42a7a593c80d5cdaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverImage: {fileID: 7948432236967876960}
   turretRenderer: {fileID: 1017027125166712336}
   item: {fileID: 0}
   turret: {fileID: 0}
-  hoverImage: {fileID: 7948432236967876960}
   isSelected: 0
   turretIndex: 0
 --- !u!1 &4570077405691048447

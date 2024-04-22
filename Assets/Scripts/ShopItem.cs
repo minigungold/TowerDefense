@@ -9,11 +9,11 @@ using UnityEngine.UIElements;
 
 public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField] GameObject hoverImage;
+    [SerializeField] Button button;
     public SpriteRenderer turretRenderer;
     public SelectedItem item;
     public ScriptableTurret turret;
-    [SerializeField] GameObject hoverImage;
-    [SerializeField] Button button;
     public bool isSelected;
     private GameTile tile;
 
@@ -22,7 +22,11 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Start()
     {
         tile = GetComponent<GameTile>();
+        if (tile != null)
+        {
         turretRenderer.sprite = turret.turretSprite;
+        turretRenderer.enabled = true;
+        }
     }
     public void buttonClicked()
     {
