@@ -17,5 +17,4 @@ MonoBehaviour:
   turretSprite: {fileID: 21300000, guid: dabde4795cdbb044590b29e82d0b0727, type: 3}
   attack: 0
   attackSpeed: 0
-  range: 0
-  lineRenderer: {fileID: 0}
+  range: 2

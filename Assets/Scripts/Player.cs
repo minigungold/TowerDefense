@@ -2,22 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] TMP_Text hpText;
-    [SerializeField] private TextMeshProUGUI enemyCountText;
-    private int maxEnemyCount = 15;
-    private int leftEnemiesCount;
+    [SerializeField] public TMP_Text hpText;
+    [SerializeField] public TextMeshProUGUI enemyCountText;
+    public int waves;
+    public int enemy;
+    public int enemiesLeft;
+    public int maxEnemyCount;
     public static int bonusHP = 0;
 
     private void Start()
     {
-        leftEnemiesCount = maxEnemyCount;
+        maxEnemyCount = waves * enemy;
+        enemy = maxEnemyCount;
+        enemiesLeft = maxEnemyCount;
+        enemyCountText.text = $"{enemiesLeft} / {maxEnemyCount}";
     }
     private void Update()
     {
         hpText.text = $"{3 + bonusHP}";
-        enemyCountText.text = $"{leftEnemiesCount} / {maxEnemyCount}";
+        maxEnemyCount = waves * enemy;
+        
     }
 }

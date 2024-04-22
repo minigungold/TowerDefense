@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Enemy : MonoBehaviour
     public static HashSet<Enemy> allEnemies = new HashSet<Enemy>();
     private Stack<GameTile> path = new Stack<GameTile>();
     int hp = 20;
+    public bool isDead;
+    public int enemiesDead;
 
     private void Awake()
     {
@@ -28,6 +32,7 @@ public class Enemy : MonoBehaviour
     {
         if (path.Count > 0)
         {
+            isDead = false;
             Vector3 destPos = path.Peek().transform.position;
             transform.position = Vector3.MoveTowards(transform.position, destPos, 2 * Time.deltaTime);
 
@@ -46,6 +51,13 @@ public class Enemy : MonoBehaviour
     {
         allEnemies.Remove(this);
         Destroy(gameObject);
+        enemiesDead++;
+        Debug.Log(enemiesDead);
+    }
+
+    public static bool IsDestroyed(Enemy gameObject)
+    {
+         return gameObject == null && !ReferenceEquals(gameObject, null);
     }
 
     internal void Attack()

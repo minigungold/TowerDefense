@@ -1,17 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] public TMP_Text hpText;
+    [SerializeField] public TextMeshProUGUI enemyCountText;
     [SerializeField] GameObject gameTilePrefab;
     [SerializeField] GameObject enemyPrefab;
     GameTile[,] gameTiles;
     private GameTile spawnTile;
     const int ColCount = 20;
     const int RowCount = 10;
+    public static int bonusHP = 0;
+    public Player player;
 
     public GameTile TargetTile { get; internal set; }
     List<GameTile> pathToGoal = new List<GameTile>();
@@ -45,9 +51,10 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        
+
         if (Input.GetKeyDown(KeyCode.Space) && TargetTile != null)
         {
-
             foreach (var t in gameTiles)
             {
                 t.SetPath(false);
@@ -62,13 +69,20 @@ public class GameManager : MonoBehaviour
                 tile.SetPath(true);
                 tile = path[tile];
             }
+
+            
             StartCoroutine(SpawnEnemyCoroutine());
+            if (enemyPrefab.IsDestroyed())
+            {
+                enemyCountText.text = $"{player.enemiesLeft} / {player.maxEnemyCount}";
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             SceneManager.LoadScene("ArbreCompetences");
         }
+
 
     }
 
@@ -129,9 +143,6 @@ public class GameManager : MonoBehaviour
                     prev[v] = u;
                 }
 
-
-
-
             }
 
         }
@@ -156,14 +167,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnEnemyCoroutine()
     {
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < player.waves; j++)
         {
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < player.enemy; i++)
             {
                 yield return new WaitForSeconds(0.6f);
                 var enemy = Instantiate(enemyPrefab, spawnTile.transform.position, Quaternion.identity);
                 enemy.GetComponent<Enemy>().SetPath(pathToGoal);
+                
             }
             yield return new WaitForSeconds(2f);
         }

@@ -2195,7 +2195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1031936177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2210,6 +2210,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpText: {fileID: 1509587123}
   enemyCountText: {fileID: 1224212935}
+  waves: 0
+  enemy: 0
+  enemiesLeft: 0
+  maxEnemyCount: 0
 --- !u!4 &1031936178
 Transform:
   m_ObjectHideFlags: 0
@@ -2657,7 +2661,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpText: {fileID: 1509587123}
-  enemyCountText: {fileID: 0}
+  enemyCountText: {fileID: 1224212935}
+  waves: 2
+  enemy: 15
+  enemiesLeft: 0
+  maxEnemyCount: 0
 --- !u!1 &1135974385
 GameObject:
   m_ObjectHideFlags: 0
@@ -4072,8 +4080,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474680e76ebdb14408ed99bc71443a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpText: {fileID: 1509587123}
+  enemyCountText: {fileID: 1224212935}
   gameTilePrefab: {fileID: 6780968696711812629, guid: f0f6ce419ac55ca4b85d38a04a28fd58, type: 3}
   enemyPrefab: {fileID: 1937576023581676937, guid: 09472ca255e320f4bbcdb29e5788f602, type: 3}
+  player: {fileID: 1133486907}
 --- !u!1001 &1853152637
 PrefabInstance:
   m_ObjectHideFlags: 0
