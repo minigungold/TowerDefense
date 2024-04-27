@@ -63,7 +63,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     IEnumerator AttackCoroutine(Enemy target)
     {
-        target.GetComponent<Enemy>().Attack();
+        target.GetComponent<Enemy>().Attack(atk);
         canAttack = false;
         lineRenderer.SetPosition(1, target.transform.position);
         lineRenderer.enabled = true;

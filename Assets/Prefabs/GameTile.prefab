@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  turret: {fileID: 11400000, guid: 6d19a529ecdce164fa551bdadc716c01, type: 2}
+  turret: {fileID: 0}
 --- !u!120 &8726401022121653106
 LineRenderer:
   serializedVersion: 2

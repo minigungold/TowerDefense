@@ -15,6 +15,6 @@ MonoBehaviour:
   id: 0
   name: Turret 1
   turretSprite: {fileID: 21300000, guid: 3cade30fbd108e54ca1803a7fa4d9c37, type: 3}
-  attack: 1
+  attack: 5
   attackSpeed: 2
   range: 2

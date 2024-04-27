@@ -17,4 +17,4 @@ MonoBehaviour:
   turretSprite: {fileID: 21300000, guid: 23b64e9e42a019141af3efd60a78f496, type: 3}
   attack: 1
   attackSpeed: 1
-  range: 3
+  range: 10

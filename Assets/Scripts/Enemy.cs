@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour
     private Stack<GameTile> path = new Stack<GameTile>();
     int hp = 20;
     public bool isDead;
-    public int enemiesDead;
+
+    public static event Action onDeath;
 
     private void Awake()
     {
@@ -49,20 +50,16 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        onDeath?.Invoke();
+        Debug.Log("AHHAHAHAHHHH JE MEURT");
         allEnemies.Remove(this);
         Destroy(gameObject);
-        enemiesDead++;
-        Debug.Log(enemiesDead);
     }
 
-    public static bool IsDestroyed(Enemy gameObject)
+    internal void Attack(int dmg)
     {
-         return gameObject == null && !ReferenceEquals(gameObject, null);
-    }
-
-    internal void Attack()
-    {
-        if (--hp <= 0)
+        hp -= dmg;
+        if (hp <= 0)
         {
             Die();
         }

@@ -72,10 +72,10 @@ public class GameManager : MonoBehaviour
 
             
             StartCoroutine(SpawnEnemyCoroutine());
-            if (enemyPrefab.IsDestroyed())
-            {
-                enemyCountText.text = $"{player.enemiesLeft} / {player.maxEnemyCount}";
-            }
+            //if (enemyPrefab.IsDestroyed())
+            //{
+            //    enemyCountText.text = $"{player.enemiesLeft} / {maxEnemyCount}";
+            //}
         }
 
         if (Input.GetKeyDown(KeyCode.E))
