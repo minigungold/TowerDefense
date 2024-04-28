@@ -10,7 +10,8 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] SpriteRenderer hoverRenderer;
     [SerializeField] private List<TurningTurret> turrets;
-    [SerializeField] private SpriteRenderer spawnRenderer, turretRenderer;
+    [SerializeField] private SpriteRenderer spawnRenderer, turretRenderer, flagRenderer;
+    public SpriteRenderer wallRenderer;
     [SerializeField] private Color color;
     [SerializeField] private LineRenderer lineRenderer;
 
@@ -18,9 +19,9 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool canAttack = true;
-    private int range;
-    private int atk;
-    private int atkSpeed;
+    private float range;
+    private float atk;
+    private float atkSpeed;
 
     private Vector3 moveDirection;
 
@@ -42,7 +43,10 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     private void Update()
     {
-        
+        if (this.wallRenderer.enabled == true)
+        {
+            IsBlocked = true;
+        }
         if (turretRenderer.enabled && canAttack)
         {
             Enemy target = null;
@@ -95,7 +99,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         ScriptableTurret item = SelectedItem.Instance.selectItem;
 
-        if (item != null)
+        if (item != null && wallRenderer.enabled == false)
         {
             turretRenderer.enabled = !turretRenderer.enabled;
             IsBlocked = turretRenderer.enabled;
@@ -105,6 +109,10 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             range = item.range;
             atk = item.attack;
             atkSpeed = item.attackSpeed;
+
+            //Si le lineRenderer de l'item n'existe pas, ne pas le changer
+            if (item.lineRenderer != null) { lineRenderer.colorGradient = item.lineRenderer.colorGradient; }
+
 
         }
 
@@ -129,6 +137,10 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     internal void SetPath(bool isPath)
     {
         spriteRenderer.color = isPath ? Color.yellow : originalColor;
+        if (GM.TargetTile == this)
+        {
+            flagRenderer.enabled = true;
+        }
     }
 
 

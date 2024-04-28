@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject visual;
     public static HashSet<Enemy> allEnemies = new HashSet<Enemy>();
     private Stack<GameTile> path = new Stack<GameTile>();
-    int hp = 20;
+    float hp = 20;
     public bool isDead;
 
     public static event Action onDeath;
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    internal void Attack(int dmg)
+    internal void Attack(float dmg)
     {
         hp -= dmg;
         if (hp <= 0)

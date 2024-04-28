@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player : MonoBehaviour
 {
@@ -16,14 +17,13 @@ public class Player : MonoBehaviour
     public int maxEnemyCount;
     public int gold;
     public static int bonusHP = 0;
+    public GameManager gm;
 
     private void Start()
     {
         Enemy.onDeath += RemoveEnemy;
-
-        maxEnemyCount = waves * enemy;
         //enemy = maxEnemyCount;
-        enemiesLeft = maxEnemyCount;
+
     }
 
     private void RemoveEnemy()
@@ -35,10 +35,24 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (gm.waveOver == false)
+        {
+            if (gm.waves.Count > 0)
+            {
+                waves = gm.waves[gm.waveIndex].roundsOfEnemies;
+                enemy = gm.waves[gm.waveIndex].enemiesPerRound;
+            }
+            if (enemiesLeft == 0)
+            {
+                enemiesLeft = maxEnemyCount;
+            }
+        }
+
+
         hpText.text = $"{3 + bonusHP}";
         goldText.text = $"{gold}";
         maxEnemyCount = waves * enemy;
         enemyCountText.text = $"{enemiesLeft} / {maxEnemyCount}";
-        
+
     }
 }

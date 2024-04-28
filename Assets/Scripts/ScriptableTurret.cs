@@ -8,8 +8,8 @@ public class ScriptableTurret : ScriptableObject
     public string name;
     public Sprite turretSprite;
 
-    public int attack;
-    public int attackSpeed;
-    public int range;
-    //public LineRenderer lineRenderer;
+    public float attack;
+    public float attackSpeed;
+    public float range;
+    public LineRenderer lineRenderer;
 }

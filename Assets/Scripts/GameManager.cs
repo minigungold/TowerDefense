@@ -13,14 +13,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameTilePrefab;
     [SerializeField] GameObject enemyPrefab;
     GameTile[,] gameTiles;
-    private GameTile spawnTile;
+    public GameTile spawnTile;
     const int ColCount = 20;
     const int RowCount = 10;
     public static int bonusHP = 0;
     public Player player;
+    public int level;
+    public List<GameTile> walls;
 
     public GameTile TargetTile { get; internal set; }
-    List<GameTile> pathToGoal = new List<GameTile>();
+    public List<GameTile> pathToGoal = new List<GameTile>();
+
+    public int waveIndex = 0;
+    public bool waveOver = true;
+    [SerializeField] private int nbOfWaves = 1;
+    [SerializeField] public List<Wave> waves = new List<Wave>();
 
     private void Awake()
     {
@@ -48,10 +55,20 @@ public class GameManager : MonoBehaviour
 
         spawnTile = gameTiles[1, 7];
         spawnTile.SetEnemySpawn();
+
+        //walls.Add(gameTiles[5, 9]);
+        //walls.Add(gameTiles[5, 8]);
+        //walls.Add(gameTiles[5, 7]);
+
+        //foreach (GameTile tile in walls)
+        //{
+        //    tile.wallRenderer.enabled = true;
+        //}
+        PlaceWalls();
     }
     private void Update()
     {
-        
+
 
         if (Input.GetKeyDown(KeyCode.Space) && TargetTile != null)
         {
@@ -70,8 +87,7 @@ public class GameManager : MonoBehaviour
                 tile = path[tile];
             }
 
-            
-            StartCoroutine(SpawnEnemyCoroutine());
+            StartCoroutine(SpawnEnemyCoroutineTest());
             //if (enemyPrefab.IsDestroyed())
             //{
             //    enemyCountText.text = $"{player.enemiesLeft} / {maxEnemyCount}";
@@ -164,20 +180,83 @@ public class GameManager : MonoBehaviour
             result.Add(gameTiles[u.X, u.Y + 1]);
         return result;
     }
-
-    IEnumerator SpawnEnemyCoroutine()
+    private void PlaceWalls()
     {
-        for (int j = 0; j < player.waves; j++)
-        {
 
-            for (int i = 0; i < player.enemy; i++)
-            {
-                yield return new WaitForSeconds(0.6f);
-                var enemy = Instantiate(enemyPrefab, spawnTile.transform.position, Quaternion.identity);
-                enemy.GetComponent<Enemy>().SetPath(pathToGoal);
-                
-            }
-            yield return new WaitForSeconds(2f);
+
+        foreach (GameTile tile in walls)
+        {
+            tile.wallRenderer.enabled = true;
         }
+    }
+    private void createLevel()
+    {
+        switch (level)
+        {
+            case 0:
+                walls.Add(gameTiles[5, 9]);
+                walls.Add(gameTiles[5, 8]);
+                walls.Add(gameTiles[5, 7]);
+                walls.Add(gameTiles[5, 6]);
+                walls.Add(gameTiles[5, 5]);
+
+                walls.Add(gameTiles[9, 5]);
+                walls.Add(gameTiles[9, 4]);
+                walls.Add(gameTiles[9, 3]);
+                walls.Add(gameTiles[9, 2]);
+                walls.Add(gameTiles[9, 1]);
+                walls.Add(gameTiles[9, 0]);
+                break;
+
+            case 1:
+                walls.Add(gameTiles[5, 9]);
+                walls.Add(gameTiles[5, 8]);
+                walls.Add(gameTiles[5, 7]);
+                walls.Add(gameTiles[5, 6]);
+                walls.Add(gameTiles[5, 5]);
+
+                walls.Add(gameTiles[9, 5]);
+                walls.Add(gameTiles[9, 4]);
+                walls.Add(gameTiles[9, 3]);
+                walls.Add(gameTiles[9, 2]);
+                walls.Add(gameTiles[9, 1]);
+                walls.Add(gameTiles[9, 0]);
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+
+                break;
+        }
+    }
+
+    IEnumerator SpawnEnemyCoroutineTest()
+    {
+        waveOver = false;
+        for (waveIndex = 0; waveIndex < waves.Count; waveIndex++)
+        {
+            Wave wave = waves[waveIndex];
+            for (int j = 0; j < wave.roundsOfEnemies; j++)
+            {
+
+                for (int i = 0; i < wave.enemiesPerRound; i++)
+                {
+                    yield return new WaitForSeconds(wave.enemiesDelay);
+                    var enemy = Instantiate(enemyPrefab, spawnTile.transform.position, Quaternion.identity);
+                    enemy.GetComponent<Enemy>().SetPath(pathToGoal);
+
+                }
+                yield return new WaitForSeconds(wave.roundDelay);
+            }
+
+        }
+        waveOver = true;
     }
 }
