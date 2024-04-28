@@ -28,7 +28,8 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public GameManager GM { get; internal set; }
     public int X { get; internal set; }
     public int Y { get; internal set; }
-    public bool IsBlocked { get; private set; }
+    public bool IsBlocked { get; set; }
+    public bool isAPath = false;
 
     private void Awake()
     {
@@ -137,6 +138,10 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     internal void SetPath(bool isPath)
     {
         spriteRenderer.color = isPath ? Color.yellow : originalColor;
+        if (GM.pathToGoal.Contains(this))
+        {
+            isAPath = true;
+        }
         if (GM.TargetTile == this)
         {
             flagRenderer.enabled = true;

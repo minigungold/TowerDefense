@@ -683,8 +683,8 @@ MonoBehaviour:
   - {fileID: 3112157348690036554}
   spawnRenderer: {fileID: 1025139865359662777}
   turretRenderer: {fileID: 996307063009917794}
-  wallRenderer: {fileID: 1360072202401020768}
   flagRenderer: {fileID: 6381849818681125482}
+  wallRenderer: {fileID: 1360072202401020768}
   color: {r: 0, g: 0, b: 0, a: 0}
   lineRenderer: {fileID: 1198278338128059360}
 --- !u!61 &3055315963603603748
@@ -908,7 +908,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 4f07511061ef16e4fbc70d18880b8a10, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

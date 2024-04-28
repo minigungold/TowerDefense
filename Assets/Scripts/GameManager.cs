@@ -8,8 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public TMP_Text hpText;
-    [SerializeField] public TextMeshProUGUI enemyCountText;
+    [SerializeField] private Canvas menu;
+    [SerializeField] private Canvas menuLvlSelect;
+    [SerializeField] private UIManager uiManager;
+    public TMP_Text hpText;
+    public TextMeshProUGUI enemyCountText;
     [SerializeField] GameObject gameTilePrefab;
     [SerializeField] GameObject enemyPrefab;
     GameTile[,] gameTiles;
@@ -27,7 +30,12 @@ public class GameManager : MonoBehaviour
     public int waveIndex = 0;
     public bool waveOver = true;
     [SerializeField] private int nbOfWaves = 1;
-    [SerializeField] public List<Wave> waves = new List<Wave>();
+    public List<Wave> waves = new List<Wave>();
+
+    public bool gameStarted = false;
+    private bool isPaused = false;
+    private bool lvlCreated = false;
+    private bool pathFound = false;
 
     private void Awake()
     {
@@ -56,22 +64,26 @@ public class GameManager : MonoBehaviour
         spawnTile = gameTiles[1, 7];
         spawnTile.SetEnemySpawn();
 
-        //walls.Add(gameTiles[5, 9]);
-        //walls.Add(gameTiles[5, 8]);
-        //walls.Add(gameTiles[5, 7]);
 
-        //foreach (GameTile tile in walls)
-        //{
-        //    tile.wallRenderer.enabled = true;
-        //}
-        PlaceWalls();
+
+    }
+    private void Start()
+    {
+
     }
     private void Update()
     {
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && TargetTile != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            pauseGame();
+        }
+
+        if (TargetTile != null && gameStarted == false)
+        {
+
+            createLevel();
+            TargetTile = gameTiles[18, 6];
+
             foreach (var t in gameTiles)
             {
                 t.SetPath(false);
@@ -79,7 +91,6 @@ public class GameManager : MonoBehaviour
 
             var path = Pathfinding(spawnTile, TargetTile);
             var tile = TargetTile;
-
             while (tile != null)
             {
                 pathToGoal.Add(tile); //ajoute la tuile dans une pile de destinations
@@ -87,11 +98,17 @@ public class GameManager : MonoBehaviour
                 tile = path[tile];
             }
 
-            StartCoroutine(SpawnEnemyCoroutineTest());
-            //if (enemyPrefab.IsDestroyed())
-            //{
-            //    enemyCountText.text = $"{player.enemiesLeft} / {maxEnemyCount}";
-            //}
+
+
+
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+
+                StartCoroutine(SpawnEnemyCoroutineTest());
+                gameStarted = true;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -149,6 +166,7 @@ public class GameManager : MonoBehaviour
                 if (!Q.Contains(v) || v.IsBlocked)
                 {
                     continue;
+
                 }
 
                 int alt = dist[u] + 1;
@@ -162,7 +180,6 @@ public class GameManager : MonoBehaviour
             }
 
         }
-
         return prev;
     }
 
@@ -182,8 +199,6 @@ public class GameManager : MonoBehaviour
     }
     private void PlaceWalls()
     {
-
-
         foreach (GameTile tile in walls)
         {
             tile.wallRenderer.enabled = true;
@@ -194,18 +209,49 @@ public class GameManager : MonoBehaviour
         switch (level)
         {
             case 0:
-                walls.Add(gameTiles[5, 9]);
-                walls.Add(gameTiles[5, 8]);
-                walls.Add(gameTiles[5, 7]);
-                walls.Add(gameTiles[5, 6]);
-                walls.Add(gameTiles[5, 5]);
+                if (lvlCreated == false)
+                {
+                    for (int x = 0; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 9]);
+                        walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int y = 0; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[0, y]);
+                        walls.Add(gameTiles[19, y]);
+                    }
+                    for (int y = 0; y <= 6; y++)
+                    {
+                        walls.Add(gameTiles[5, y]);
+                    }
 
-                walls.Add(gameTiles[9, 5]);
-                walls.Add(gameTiles[9, 4]);
-                walls.Add(gameTiles[9, 3]);
-                walls.Add(gameTiles[9, 2]);
-                walls.Add(gameTiles[9, 1]);
-                walls.Add(gameTiles[9, 0]);
+                    walls.Add(gameTiles[5, 9]);
+                    walls.Add(gameTiles[5, 8]);
+
+                    for (int y = 0; y <= 4; y++)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+                    for (int y = 9; y >= 6; y--)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+
+                    for (int y = 0; y <= 1; y++)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    for (int y = 9; y >= 3; y--)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    lvlCreated = true;
+                }
+                //TargetTile = gameTiles[18, 6];
+
+
+
                 break;
 
             case 1:
@@ -235,6 +281,7 @@ public class GameManager : MonoBehaviour
 
                 break;
         }
+        PlaceWalls();
     }
 
     IEnumerator SpawnEnemyCoroutineTest()
@@ -259,4 +306,25 @@ public class GameManager : MonoBehaviour
         }
         waveOver = true;
     }
+
+    public void pauseGame()
+    {
+        //menu.enabled = !menu.enabled;
+
+        uiManager.disableLevelSelect();
+        if (!menu.enabled)
+        {
+            isPaused = true;
+            menu.enabled = true;
+            Time.timeScale = 0;
+        }
+        else if (menu.enabled)
+        {
+            isPaused = false;
+            menu.enabled = false;
+            Time.timeScale = 1;
+        }
+
+    }
+
 }
