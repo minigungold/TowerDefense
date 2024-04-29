@@ -30,7 +30,7 @@ public class TurningTurret : MonoBehaviour
             foreach (var enemy in Enemy.allEnemies)
             {
 
-                if (Vector3.Distance(mousetransform.position, enemy.transform.position) < range)
+                if (enemy != null && Vector3.Distance(mousetransform.position, enemy.transform.position) < range)
                 {
                     Vector2 direction = enemy.transform.position - mousetransform.position;
                     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

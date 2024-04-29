@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1.0f;
         gameTiles = new GameTile[ColCount, RowCount];
 
         for (int x = 0; x < ColCount; x++)
@@ -108,13 +109,15 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("ArbreCompetences");
         }
 
-        if (waveOver == true && player.gameOver == false)
+        if (waveOver == true && player.enemiesLeft == 0)  
         {
             isPaused = true;
             menu.enabled = true;
             resumeButton.interactable = false;
             victoryText.enabled = true;
-            Time.timeScale = 0;
+            gameStarted = false;
+            waveIndex = 0;
+            Time.timeScale = 0f;
         }
 
         if (player.gameOver == true)
@@ -123,7 +126,9 @@ public class GameManager : MonoBehaviour
             menu.enabled = true;
             resumeButton.interactable = false;
             gameOverText.enabled = true;
-            Time.timeScale = 0;
+            gameStarted = false;
+            waveIndex = 0;
+            Time.timeScale = 0f;
         }
 
     }
@@ -305,7 +310,7 @@ public class GameManager : MonoBehaviour
     IEnumerator SpawnEnemyCoroutineTest()
     {
         waveOver = false;
-        for (waveIndex = 0; waveIndex <= waves.Count; waveIndex++)
+        for (waveIndex = 0; waveIndex < waves.Count; waveIndex++)
         {
             Wave wave = waves[waveIndex];
             for (int j = 0; j < wave.roundsOfEnemies; j++)
@@ -328,6 +333,7 @@ public class GameManager : MonoBehaviour
 
         }
         waveOver = true;
+
     }
 
     public void pauseGame()

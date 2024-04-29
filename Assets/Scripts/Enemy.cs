@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
         if (path.Count > 0)
         {
             isDead = false;

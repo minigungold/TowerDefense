@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     public void StartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Gameplay");
 
     }
     public void ResumeGame()

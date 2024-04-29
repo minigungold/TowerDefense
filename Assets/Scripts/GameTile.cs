@@ -55,7 +55,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             foreach (var enemy in Enemy.allEnemies)
             {
                     
-                if (Vector3.Distance(transform.position, enemy.transform.position) < 0.01f)
+                if (enemy != null && Vector3.Distance(transform.position, enemy.transform.position) < 0.01f)
                 {
                     target = enemy;
                     Debug.Log("aillole donc");
@@ -75,7 +75,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Enemy target = null;
             foreach (var enemy in Enemy.allEnemies)
             {
-                if (Vector3.Distance(transform.position, enemy.transform.position) < range) // Range
+                if (enemy != null && Vector3.Distance(transform.position, enemy.transform.position) < range) // Range
                 {
                     target = enemy;
                     break;
