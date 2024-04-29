@@ -687,6 +687,7 @@ MonoBehaviour:
   wallRenderer: {fileID: 1360072202401020768}
   color: {r: 0, g: 0, b: 0, a: 0}
   lineRenderer: {fileID: 1198278338128059360}
+  isAPath: 0
 --- !u!61 &3055315963603603748
 BoxCollider2D:
   m_ObjectHideFlags: 0

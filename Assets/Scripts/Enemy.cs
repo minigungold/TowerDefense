@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : MonoBehaviour
@@ -10,10 +12,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject visual;
     public static HashSet<Enemy> allEnemies = new HashSet<Enemy>();
     private Stack<GameTile> path = new Stack<GameTile>();
-    float hp = 20;
+    public float hp = 20;
+    public float attack;
     public bool isDead;
+    public float goldLoot;
+    private Player player;
 
     public static event Action onDeath;
+    private GameManager GM;
+
 
     private void Awake()
     {
@@ -48,7 +55,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         onDeath?.Invoke();
         Debug.Log("AHHAHAHAHHHH JE MEURT");

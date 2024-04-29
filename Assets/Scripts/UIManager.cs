@@ -1,7 +1,10 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -19,6 +22,12 @@ public class UIManager : MonoBehaviour
         lvlSelectionMenu.enabled = true;
         
     }
+
+    public void StartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
     public void ResumeGame()
     {
         GM.pauseGame();
@@ -28,12 +37,12 @@ public class UIManager : MonoBehaviour
 
     public void RestartGame()
     {
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
     {
-
+        Application.Quit();
     }
 
 }

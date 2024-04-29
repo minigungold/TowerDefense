@@ -7,6 +7,7 @@ public class ScriptableTurret : ScriptableObject
     public int id;
     public string name;
     public Sprite turretSprite;
+    public float cost;
 
     public float attack;
     public float attackSpeed;

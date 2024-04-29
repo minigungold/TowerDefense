@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 4
   name: Fast Turret
   turretSprite: {fileID: 21300000, guid: 085bc9bfe8b05474888e1ba153b5c507, type: 3}
+  cost: 400
   attack: 2
   attackSpeed: 6
   range: 3
-  lineRenderer: {fileID: 0}
+  lineRenderer: {fileID: 5402441076862936020, guid: 08784354291fa3840a1d1aee3a29c288, type: 3}

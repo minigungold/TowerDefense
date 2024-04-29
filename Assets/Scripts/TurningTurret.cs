@@ -12,17 +12,11 @@ public class TurningTurret : MonoBehaviour
     public ScriptableTurret turret;
     private GameTile tile;
     private float range;
-    private void LookMouse()
-    {
-        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - mousetransform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        mousetransform.rotation = rotation;
-    }
+    private Player player;
+
     void Start()
     {
         mousetransform = this.transform;
-
     }
     void Update()
     {
@@ -30,17 +24,20 @@ public class TurningTurret : MonoBehaviour
         {
             range = SelectedItem.Instance.selectItem.range;
         }
-
-        foreach (var enemy in Enemy.allEnemies)
+        if (Time.timeScale > 0.1f)
         {
 
-            if (Vector3.Distance(mousetransform.position, enemy.transform.position) < range)
+            foreach (var enemy in Enemy.allEnemies)
             {
-                Vector2 direction = enemy.transform.position - mousetransform.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-                mousetransform.rotation = rotation;
-                break;
+
+                if (Vector3.Distance(mousetransform.position, enemy.transform.position) < range)
+                {
+                    Vector2 direction = enemy.transform.position - mousetransform.position;
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                    mousetransform.rotation = rotation;
+                    break;
+                }
             }
         }
         //LookMouse();

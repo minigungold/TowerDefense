@@ -5,27 +5,33 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Canvas menu;
     [SerializeField] private Canvas menuLvlSelect;
+    [SerializeField] private Button resumeButton;
+    [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private TextMeshProUGUI victoryText;
     [SerializeField] private UIManager uiManager;
     public TMP_Text hpText;
     public TextMeshProUGUI enemyCountText;
     [SerializeField] GameObject gameTilePrefab;
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject enemyPrefab2;
     GameTile[,] gameTiles;
     public GameTile spawnTile;
     const int ColCount = 20;
     const int RowCount = 10;
-    public static int bonusHP = 0;
+    public int bonusHP = 0;
     public Player player;
     public int level;
     public List<GameTile> walls;
 
     public GameTile TargetTile { get; internal set; }
-    public List<GameTile> pathToGoal = new List<GameTile>();
+    private List<GameTile> pathToGoal = new List<GameTile>();
 
     public int waveIndex = 0;
     public bool waveOver = true;
@@ -35,7 +41,6 @@ public class GameManager : MonoBehaviour
     public bool gameStarted = false;
     private bool isPaused = false;
     private bool lvlCreated = false;
-    private bool pathFound = false;
 
     private void Awake()
     {
@@ -63,26 +68,17 @@ public class GameManager : MonoBehaviour
 
         spawnTile = gameTiles[1, 7];
         spawnTile.SetEnemySpawn();
-
-
-
     }
-    private void Start()
-    {
 
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseGame();
         }
-
-        if (TargetTile != null && gameStarted == false)
+        if (gameStarted == false)
         {
-
             createLevel();
-            TargetTile = gameTiles[18, 6];
 
             foreach (var t in gameTiles)
             {
@@ -91,17 +87,13 @@ public class GameManager : MonoBehaviour
 
             var path = Pathfinding(spawnTile, TargetTile);
             var tile = TargetTile;
+
             while (tile != null)
             {
                 pathToGoal.Add(tile); //ajoute la tuile dans une pile de destinations
                 tile.SetPath(true);
                 tile = path[tile];
             }
-
-
-
-
-
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -116,6 +108,23 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("ArbreCompetences");
         }
 
+        if (waveOver == true && player.gameOver == false)
+        {
+            isPaused = true;
+            menu.enabled = true;
+            resumeButton.interactable = false;
+            victoryText.enabled = true;
+            Time.timeScale = 0;
+        }
+
+        if (player.gameOver == true)
+        {
+            isPaused = true;
+            menu.enabled = true;
+            resumeButton.interactable = false;
+            gameOverText.enabled = true;
+            Time.timeScale = 0;
+        }
 
     }
 
@@ -204,6 +213,14 @@ public class GameManager : MonoBehaviour
             tile.wallRenderer.enabled = true;
         }
     }
+
+    private void RemoveWalls()
+    {
+        foreach (GameTile tile in walls)
+        {
+            tile.wallRenderer.enabled = true;
+        }
+    }
     private void createLevel()
     {
         switch (level)
@@ -211,6 +228,7 @@ public class GameManager : MonoBehaviour
             case 0:
                 if (lvlCreated == false)
                 {
+                    RemoveWalls();
                     for (int x = 0; x <= 19; x++)
                     {
                         walls.Add(gameTiles[x, 9]);
@@ -248,7 +266,7 @@ public class GameManager : MonoBehaviour
                     }
                     lvlCreated = true;
                 }
-                //TargetTile = gameTiles[18, 6];
+                TargetTile = gameTiles[18, 6];
 
 
 
@@ -287,7 +305,7 @@ public class GameManager : MonoBehaviour
     IEnumerator SpawnEnemyCoroutineTest()
     {
         waveOver = false;
-        for (waveIndex = 0; waveIndex < waves.Count; waveIndex++)
+        for (waveIndex = 0; waveIndex <= waves.Count; waveIndex++)
         {
             Wave wave = waves[waveIndex];
             for (int j = 0; j < wave.roundsOfEnemies; j++)
@@ -300,6 +318,11 @@ public class GameManager : MonoBehaviour
                     enemy.GetComponent<Enemy>().SetPath(pathToGoal);
 
                 }
+                yield return new WaitForSeconds(wave.enemiesDelay);
+
+                var enemy2 = Instantiate(enemyPrefab2, spawnTile.transform.position, Quaternion.identity);
+                enemy2.GetComponent<Enemy>().SetPath(pathToGoal);
+
                 yield return new WaitForSeconds(wave.roundDelay);
             }
 
@@ -309,9 +332,8 @@ public class GameManager : MonoBehaviour
 
     public void pauseGame()
     {
-        //menu.enabled = !menu.enabled;
-
         uiManager.disableLevelSelect();
+        //menu.enabled = !menu.enabled;
         if (!menu.enabled)
         {
             isPaused = true;
@@ -327,4 +349,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+
 }
+
+
