@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        bonusHP = 0;
+        HP = 3;
         gold = 450;
         Enemy.onDeath += RemoveEnemy;
         GameTile.onAttackPlayer += AttackPlayer;
