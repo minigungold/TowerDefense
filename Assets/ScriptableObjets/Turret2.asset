@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Sniper Turret
   turretSprite: {fileID: 21300000, guid: b63b904c13ff12647983eb99114c5ecb, type: 3}
   cost: 325
-  attack: 8
+  attack: 10
   attackSpeed: 0.7
   range: 10
   lineRenderer: {fileID: 2564767760118589194, guid: 6e80c5e76109a854991de18108442e86, type: 3}
