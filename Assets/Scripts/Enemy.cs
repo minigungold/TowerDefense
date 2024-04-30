@@ -10,6 +10,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject visual;
+    public ParticleSystem goldParticule;
     public static HashSet<Enemy> allEnemies = new HashSet<Enemy>();
     private Stack<GameTile> path = new Stack<GameTile>();
     public float hp = 20;
@@ -53,12 +54,15 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            //goldParticule.transform.position = Vector3.back;
+            //goldParticule.Play(enabled);
             Die();
         }
     }
 
     public void Die()
     {
+        goldParticule.Play();
         onDeath?.Invoke();
         Debug.Log("AHHAHAHAHHHH JE MEURT");
         allEnemies.Remove(this);

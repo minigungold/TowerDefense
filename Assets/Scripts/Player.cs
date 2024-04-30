@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         bonusHP = 0;
         HP = 3;
-        gold = 450;
+        gold = 500;
         Enemy.onDeath += RemoveEnemy;
         GameTile.onAttackPlayer += AttackPlayer;
         //enemy = maxEnemyCount;
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
     private void Victory()
     {
-        if (!gameOver && enemiesLeft == 0)
+        if (!gameOver && enemiesLeft == 0 && gm.waveIndex == gm.waves.Count - 1)
         {
             victory = true;
         }
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     private void RemoveEnemy()
     {
         enemiesLeft--;
-        gold += 50;
+        gold += 60;
 
     }
     private void AttackPlayer()
@@ -71,12 +71,12 @@ public class Player : MonoBehaviour
 
         if (enemiesLeft == 0 && gm.roundOver)
         {
-            enemiesLeft = waves * enemy;
+            enemiesLeft = (waves * enemy) + 3 * waves;
         }
 
         hpText.text = $"{HP + bonusHP}";
         goldText.text = $"{gold}";
-        maxEnemyCount = waves * enemy;
+        maxEnemyCount = (waves * enemy) + 3 * waves;
         enemyCountText.text = $"{enemiesLeft} / {maxEnemyCount}";
         waveCountText.text = $"{gm.waveIndex + 1}";
 

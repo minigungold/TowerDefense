@@ -9,7 +9,7 @@ public class Level : MonoBehaviour
 {
     [SerializeField] private GameManager GM;
     [SerializeField] private int objectLvl;
-    [SerializeField] private TextMeshProUGUI levelText;
+
     public static int level;
     private Button button;
 
@@ -17,6 +17,7 @@ public class Level : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
+
     }
     private void Update()
     {

@@ -17,11 +17,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private TextMeshProUGUI victoryText;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private TextMeshProUGUI levelText;
     public TMP_Text hpText;
     public TextMeshProUGUI enemyCountText;
     [SerializeField] GameObject gameTilePrefab;
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject enemyPrefab2;
+    [SerializeField] GameObject enemyPrefab3;
     GameTile[,] gameTiles;
     public GameTile spawnTile;
     const int ColCount = 20;
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         level = Level.level;
+        
         Time.timeScale = 1.0f;
         gameTiles = new GameTile[ColCount, RowCount];
 
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour
 
         spawnTile = gameTiles[1, 7];
         spawnTile.SetEnemySpawn();
+        levelText.text = $"Level : {level + 1}";
     }
 
     private void Update()
@@ -135,7 +139,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
     private Dictionary<GameTile, GameTile> Pathfinding(GameTile sourceTile, GameTile targetTile)
     {
         // distance minimale de la tuile à la source
@@ -293,18 +296,24 @@ public class GameManager : MonoBehaviour
                         walls.Add(gameTiles[0, y]);
                         walls.Add(gameTiles[19, y]);
                     }
-                    walls.Add(gameTiles[4, 9]);
-                    walls.Add(gameTiles[4, 8]);
-                    walls.Add(gameTiles[4, 7]);
-                    walls.Add(gameTiles[4, 6]);
-                    walls.Add(gameTiles[4, 5]);
 
-                    walls.Add(gameTiles[8, 5]);
-                    walls.Add(gameTiles[8, 4]);
-                    walls.Add(gameTiles[8, 3]);
-                    walls.Add(gameTiles[8, 2]);
-                    walls.Add(gameTiles[8, 1]);
-                    walls.Add(gameTiles[8, 0]);
+
+                    for (int y = 0; y <= 7; y++)
+                    {
+                        walls.Add(gameTiles[4, y]);
+                        walls.Add(gameTiles[12, y]);
+                    }
+                    //for (int y = 3; y >= 7; y--)
+                    //{
+                    //    walls.Add(gameTiles[4, y]);
+                    //    walls.Add(gameTiles[19, y]);
+                    //}
+
+                    for (int y = 2; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[8, y]);
+                    }
+
                 }
 
                 TargetTile = gameTiles[17, 1];
@@ -313,6 +322,7 @@ public class GameManager : MonoBehaviour
             case 2:
                 if (lvlCreated == false)
                 {
+
                     for (int x = 0; x <= 19; x++)
                     {
                         walls.Add(gameTiles[x, 9]);
@@ -323,13 +333,40 @@ public class GameManager : MonoBehaviour
                         walls.Add(gameTiles[0, y]);
                         walls.Add(gameTiles[19, y]);
                     }
+                    for (int y = 5; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[5, y]);
+                    }
+
+                    walls.Add(gameTiles[5, 1]);
+                    walls.Add(gameTiles[5, 2]);
+
+                    for (int y = 0; y <= 5; y++)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+                    for (int y = 9; y >= 7; y--)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+
+                    for (int y = 0; y <= 1; y++)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    for (int y = 9; y >= 3; y--)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    lvlCreated = true;
                 }
-                TargetTile = gameTiles[17, 1];
+                TargetTile = gameTiles[18, 6];
                 break;
 
             case 3:
                 if (lvlCreated == false)
                 {
+
                     for (int x = 0; x <= 19; x++)
                     {
                         walls.Add(gameTiles[x, 9]);
@@ -340,8 +377,36 @@ public class GameManager : MonoBehaviour
                         walls.Add(gameTiles[0, y]);
                         walls.Add(gameTiles[19, y]);
                     }
+                    for (int y = 5; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[5, y]);
+                    }
+
+                    walls.Add(gameTiles[5, 1]);
+                    walls.Add(gameTiles[5, 2]);
+
+                    for (int y = 0; y <= 5; y++)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+                    for (int y = 9; y >= 7; y--)
+                    {
+                        walls.Add(gameTiles[9, y]);
+                    }
+
+                    for (int y = 0; y <= 7; y++)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    for (int y = 9; y >= 9; y--)
+                    {
+                        walls.Add(gameTiles[13, y]);
+                    }
+                    walls.Add(gameTiles[14, 7]);
+                    walls.Add(gameTiles[15, 7]);
+                    lvlCreated = true;
                 }
-                TargetTile = gameTiles[17, 1];
+                TargetTile = gameTiles[16, 2];
                 break;
 
             case 4:
@@ -357,6 +422,18 @@ public class GameManager : MonoBehaviour
                         walls.Add(gameTiles[0, y]);
                         walls.Add(gameTiles[19, y]);
                     }
+
+                    for (int x = 0; x <= 16; x++)
+                    {
+                        walls.Add(gameTiles[x, 6]);
+                        //walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int x = 3; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 3]);
+                        //walls.Add(gameTiles[x, 0]);
+                    }
+
                 }
                 TargetTile = gameTiles[17, 1];
                 break;
@@ -372,8 +449,8 @@ public class GameManager : MonoBehaviour
             roundOver = false;
             Wave wave = waves[waveIndex];
 
-            player.maxEnemyCount = wave.roundsOfEnemies * wave.enemiesPerRound;
-            player.enemiesLeft = wave.roundsOfEnemies * wave.enemiesPerRound;
+            player.maxEnemyCount = (wave.roundsOfEnemies * wave.enemiesPerRound) + 3 *wave.roundsOfEnemies;
+            player.enemiesLeft = (wave.roundsOfEnemies * wave.enemiesPerRound) + (3 * wave.roundsOfEnemies);
 
             for (int j = 0; j < wave.roundsOfEnemies; j++)
             {
@@ -386,9 +463,15 @@ public class GameManager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(wave.enemiesDelay);
 
-                //var enemy2 = Instantiate(enemyPrefab2, spawnTile.transform.position, Quaternion.identity);
-                //enemy2.GetComponent<Enemy>().SetPath(pathToGoal);
+                var enemy2 = Instantiate(enemyPrefab2, spawnTile.transform.position, Quaternion.identity);
+                enemy2.GetComponent<Enemy>().SetPath(pathToGoal);
 
+                for (int i = 0; i < 2; i++)
+                {
+                    yield return new WaitForSeconds(wave.enemiesDelay);
+                    var enemy3 = Instantiate(enemyPrefab3, spawnTile.transform.position, Quaternion.identity);
+                    enemy3.GetComponent<Enemy>().SetPath(pathToGoal);
+                }
                 yield return new WaitForSeconds(wave.roundDelay);
             }
             while (player.enemiesLeft != 0)

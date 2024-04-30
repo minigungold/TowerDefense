@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -23,7 +24,6 @@ public class UIManager : MonoBehaviour
         {
             buttonList.Add(lvlButton);
         }
-
     }
     public void disableLevelSelect()
     {
