@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     private Stack<GameTile> path = new Stack<GameTile>();
     public float hp = 20;
     public float attack;
+    public float speed = 1f;
     public bool isDead;
     public float goldLoot;
     private Player player;
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour
         {
             isDead = false;
             Vector3 destPos = path.Peek().transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, destPos, 2 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, destPos, speed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, destPos) < 0.01f)
             {

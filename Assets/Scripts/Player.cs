@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public int HP = 3;
     public GameManager gm;
     public bool gameOver = false;
+    public bool victory = false;
 
     private void Start()
     {
@@ -37,6 +38,14 @@ public class Player : MonoBehaviour
         if (HP + bonusHP <= 0)
         {
             gameOver = true;
+        }
+    }
+
+    private void Victory()
+    {
+        if (!gameOver && enemiesLeft == 0)
+        {
+            victory = true;
         }
     }
     private void RemoveEnemy()
@@ -59,18 +68,23 @@ public class Player : MonoBehaviour
             waves = gm.waves[gm.waveIndex].roundsOfEnemies;
             enemy = gm.waves[gm.waveIndex].enemiesPerRound;
         }
-        if (enemiesLeft == 0)
+
+        if (enemiesLeft == 0 && gm.roundOver)
         {
-            enemiesLeft = maxEnemyCount;
+            enemiesLeft = waves * enemy;
         }
-
-
 
         hpText.text = $"{HP + bonusHP}";
         goldText.text = $"{gold}";
-        maxEnemyCount = (waves * enemy) + waves;
+        maxEnemyCount = waves * enemy;
         enemyCountText.text = $"{enemiesLeft} / {maxEnemyCount}";
         waveCountText.text = $"{gm.waveIndex + 1}";
+
+
+
+
+
+
 
     }
 }

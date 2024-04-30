@@ -122,7 +122,7 @@ public class GameTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         ScriptableTurret item = SelectedItem.Instance.selectItem;
 
-        if (item != null && wallRenderer.enabled == false && spriteRenderer.color == originalColor)
+        if (item != null && wallRenderer.enabled == false /*&& spriteRenderer.color == originalColor*/)
         {
 
             if (turretRenderer.enabled)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,9 +42,11 @@ public class GameManager : MonoBehaviour
     public bool gameStarted = false;
     private bool isPaused = false;
     private bool lvlCreated = false;
+    public bool roundOver = true;
 
     private void Awake()
     {
+        level = Level.level;
         Time.timeScale = 1.0f;
         gameTiles = new GameTile[ColCount, RowCount];
 
@@ -109,7 +112,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("ArbreCompetences");
         }
 
-        if (waveOver == true && player.enemiesLeft == 0)  
+        if (waveOver == true && player.enemiesLeft == 0)
         {
             isPaused = true;
             menu.enabled = true;
@@ -233,7 +236,7 @@ public class GameManager : MonoBehaviour
             case 0:
                 if (lvlCreated == false)
                 {
-                    RemoveWalls();
+
                     for (int x = 0; x <= 19; x++)
                     {
                         walls.Add(gameTiles[x, 9]);
@@ -278,30 +281,84 @@ public class GameManager : MonoBehaviour
                 break;
 
             case 1:
-                walls.Add(gameTiles[5, 9]);
-                walls.Add(gameTiles[5, 8]);
-                walls.Add(gameTiles[5, 7]);
-                walls.Add(gameTiles[5, 6]);
-                walls.Add(gameTiles[5, 5]);
+                if (lvlCreated == false)
+                {
+                    for (int x = 0; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 9]);
+                        walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int y = 0; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[0, y]);
+                        walls.Add(gameTiles[19, y]);
+                    }
+                    walls.Add(gameTiles[4, 9]);
+                    walls.Add(gameTiles[4, 8]);
+                    walls.Add(gameTiles[4, 7]);
+                    walls.Add(gameTiles[4, 6]);
+                    walls.Add(gameTiles[4, 5]);
 
-                walls.Add(gameTiles[9, 5]);
-                walls.Add(gameTiles[9, 4]);
-                walls.Add(gameTiles[9, 3]);
-                walls.Add(gameTiles[9, 2]);
-                walls.Add(gameTiles[9, 1]);
-                walls.Add(gameTiles[9, 0]);
+                    walls.Add(gameTiles[8, 5]);
+                    walls.Add(gameTiles[8, 4]);
+                    walls.Add(gameTiles[8, 3]);
+                    walls.Add(gameTiles[8, 2]);
+                    walls.Add(gameTiles[8, 1]);
+                    walls.Add(gameTiles[8, 0]);
+                }
+
+                TargetTile = gameTiles[17, 1];
                 break;
 
             case 2:
-
+                if (lvlCreated == false)
+                {
+                    for (int x = 0; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 9]);
+                        walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int y = 0; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[0, y]);
+                        walls.Add(gameTiles[19, y]);
+                    }
+                }
+                TargetTile = gameTiles[17, 1];
                 break;
 
             case 3:
-
+                if (lvlCreated == false)
+                {
+                    for (int x = 0; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 9]);
+                        walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int y = 0; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[0, y]);
+                        walls.Add(gameTiles[19, y]);
+                    }
+                }
+                TargetTile = gameTiles[17, 1];
                 break;
 
             case 4:
-
+                if (lvlCreated == false)
+                {
+                    for (int x = 0; x <= 19; x++)
+                    {
+                        walls.Add(gameTiles[x, 9]);
+                        walls.Add(gameTiles[x, 0]);
+                    }
+                    for (int y = 0; y <= 9; y++)
+                    {
+                        walls.Add(gameTiles[0, y]);
+                        walls.Add(gameTiles[19, y]);
+                    }
+                }
+                TargetTile = gameTiles[17, 1];
                 break;
         }
         PlaceWalls();
@@ -312,10 +369,14 @@ public class GameManager : MonoBehaviour
         waveOver = false;
         for (waveIndex = 0; waveIndex < waves.Count; waveIndex++)
         {
+            roundOver = false;
             Wave wave = waves[waveIndex];
+
+            player.maxEnemyCount = wave.roundsOfEnemies * wave.enemiesPerRound;
+            player.enemiesLeft = wave.roundsOfEnemies * wave.enemiesPerRound;
+
             for (int j = 0; j < wave.roundsOfEnemies; j++)
             {
-
                 for (int i = 0; i < wave.enemiesPerRound; i++)
                 {
                     yield return new WaitForSeconds(wave.enemiesDelay);
@@ -325,11 +386,16 @@ public class GameManager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(wave.enemiesDelay);
 
-                var enemy2 = Instantiate(enemyPrefab2, spawnTile.transform.position, Quaternion.identity);
-                enemy2.GetComponent<Enemy>().SetPath(pathToGoal);
+                //var enemy2 = Instantiate(enemyPrefab2, spawnTile.transform.position, Quaternion.identity);
+                //enemy2.GetComponent<Enemy>().SetPath(pathToGoal);
 
                 yield return new WaitForSeconds(wave.roundDelay);
             }
+            while (player.enemiesLeft != 0)
+            {
+                yield return null;
+            }
+            roundOver = true;
 
         }
         waveOver = true;
@@ -357,5 +423,3 @@ public class GameManager : MonoBehaviour
 
 
 }
-
-

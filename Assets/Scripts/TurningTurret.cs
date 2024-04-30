@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class TurningTurret : MonoBehaviour
 {
     public int id;
-    private Transform mousetransform;
+    private Transform turretTransform;
     public ScriptableTurret turret;
     private GameTile tile;
     private float range;
@@ -16,7 +16,7 @@ public class TurningTurret : MonoBehaviour
 
     void Start()
     {
-        mousetransform = this.transform;
+        turretTransform = this.transform;
     }
     void Update()
     {
@@ -30,12 +30,12 @@ public class TurningTurret : MonoBehaviour
             foreach (var enemy in Enemy.allEnemies)
             {
 
-                if (enemy != null && Vector3.Distance(mousetransform.position, enemy.transform.position) < range)
+                if (enemy != null && Vector3.Distance(turretTransform.position, enemy.transform.position) < range)
                 {
-                    Vector2 direction = enemy.transform.position - mousetransform.position;
+                    Vector2 direction = enemy.transform.position - turretTransform.position;
                     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                     Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-                    mousetransform.rotation = rotation;
+                    turretTransform.rotation = rotation;
                     break;
                 }
             }

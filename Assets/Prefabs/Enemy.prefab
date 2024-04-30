@@ -46,6 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 1937576023581676937}
+  hp: 20
+  attack: 0
+  speed: 2
+  isDead: 0
+  goldLoot: 0
 --- !u!1 &5204478412509598819
 GameObject:
   m_ObjectHideFlags: 0
